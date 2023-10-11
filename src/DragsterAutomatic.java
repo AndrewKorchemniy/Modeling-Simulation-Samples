@@ -9,14 +9,16 @@ import static java.lang.Double.isFinite;
  * IMPLEMENT PARTS 1 AND 2 HERE.
  */
 public class DragsterAutomatic extends A_Dragster {
-    /**
-     * the target RPM to shift at
-     */
+    /** Target RPM to shift at */
     private static final int SHIFT_RPM = 9000;
+    /** Gear number currently in use */
     private static int gearNum = 1;
+    /** Total time */
     private static double timeTotal = 0;
+    /** Total distance */
     private static double distanceTotal = 0;
-    private static double timeSinceShifting = 0;
+    /** Total time since last shift */
+    private static double lastShiftingtime = 0;
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -28,8 +30,7 @@ public class DragsterAutomatic extends A_Dragster {
     public DragsterAutomatic(final A_EngineModel engineModel) {
         super(engineModel);
 
-//        System.out.println("time,distance,speed,gear_num,rpm");
-        System.out.println("time_in_gear,gear_num,rpm");
+        System.out.println("time,distance,speed,gear_num,rpm");
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -43,23 +44,23 @@ public class DragsterAutomatic extends A_Dragster {
     public boolean update(final double timeStep) {
         super.update(timeStep);
 
-        int rpm = _engineModel.getRPM(timeTotal - timeSinceShifting, gearNum);
+        int rpm = _engineModel.getRPM(timeTotal - lastShiftingtime, gearNum);
         double gearRatio = GEAR_RATIOS[gearNum - 1];
 
         double distanceDelta = (rpm / SECONDS_PER_MINUTE) * timeStep * gearRatio * FEET_PER_REVOLUTION;
-        distanceTotal += distanceDelta;
         double speedTotal = (distanceTotal / FEET_PER_MILE) / (timeTotal / SECONDS_PER_MINUTE / MINUTES_PER_HOUR);
         speedTotal = isFinite(speedTotal) ? speedTotal : 0;
 
-//        System.out.printf("%f,%f,%f,%d,%d%n", timeTotal, distanceTotal, speedTotal, gearNum, rpm);
-        System.out.printf("%.1f,%d,%d%n", timeTotal - timeSinceShifting, gearNum, rpm);
+        System.out.printf("%.1f,%f,%f,%d,%d%n", timeTotal, distanceTotal, speedTotal, gearNum, rpm);
+
+        distanceTotal += distanceDelta;
+        timeTotal += timeStep;
 
         if (rpm >= SHIFT_RPM) {
             gearNum++;
-            timeSinceShifting = timeTotal;
+            lastShiftingtime = timeTotal;
         }
 
-        timeTotal += timeStep;
-        return gearNum >= GEAR_RATIOS.length;
+        return gearNum > GEAR_RATIOS.length;
     }
 }
