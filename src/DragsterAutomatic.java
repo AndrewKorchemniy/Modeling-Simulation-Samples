@@ -18,7 +18,7 @@ public class DragsterAutomatic extends A_Dragster {
     /** Total distance */
     private static double distanceTotal = 0;
     /** Total time since last shift */
-    private static double lastShiftingtime = 0;
+    private static double lastShiftingTime = 0;
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -44,21 +44,21 @@ public class DragsterAutomatic extends A_Dragster {
     public boolean update(final double timeStep) {
         super.update(timeStep);
 
-        int rpm = _engineModel.getRPM(timeTotal - lastShiftingtime, gearNum);
+        int rpm = _engineModel.getRPM(timeTotal - lastShiftingTime, gearNum);
         double gearRatio = GEAR_RATIOS[gearNum - 1];
 
         double distanceDelta = (rpm / SECONDS_PER_MINUTE) * timeStep * gearRatio * FEET_PER_REVOLUTION;
         double speedTotal = (distanceTotal / FEET_PER_MILE) / (timeTotal / SECONDS_PER_MINUTE / MINUTES_PER_HOUR);
         speedTotal = isFinite(speedTotal) ? speedTotal : 0;
 
-        System.out.printf("%.1f,%f,%f,%d,%d%n", timeTotal, distanceTotal, speedTotal, gearNum, rpm);
+        System.out.printf("%.2f,%f,%f,%d,%d%n", timeTotal, distanceTotal, speedTotal, gearNum, rpm);
 
         distanceTotal += distanceDelta;
         timeTotal += timeStep;
 
         if (rpm >= SHIFT_RPM) {
             gearNum++;
-            lastShiftingtime = timeTotal;
+            lastShiftingTime = timeTotal;
         }
 
         return gearNum > GEAR_RATIOS.length;
