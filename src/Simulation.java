@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 public class Simulation {
 
     /**
-     * Defines the simulation parameters.
+     * Defines the default simulation parameters.
      */
     public static class SimulationParameters {
         public double timeStep = 0.1;
@@ -39,12 +39,11 @@ public class Simulation {
     public static void main(final String[] arguments) throws IOException {
         Simulation simulation = new Simulation();
 
-        int testNum = 8; // change this to run each test separately
+        int testNum = 18; // change this to run each test separately
 
         System.out.println("Executing Test " + testNum);
 
         switch (testNum) {
-            case 0 -> simulation.runTestExample();
             case 1 -> simulation.runTest1();
             case 2 -> simulation.runTest2();
             case 3 -> simulation.runTest3();
@@ -78,7 +77,7 @@ public class Simulation {
      *
      * @param p        The simulation parameters.
      * @param airplane The airplane to simulate.
-     * @param update   The function to call while updating the airplane.
+     * @param update   The callback function to call on each time step.
      * @throws IOException If there is an error writing the output file.
      */
     public static void run(SimulationParameters p, Airplane airplane, Consumer<Double> update) throws IOException {
@@ -252,8 +251,7 @@ public class Simulation {
     /**
      * Put Test 9 here.
      * Fly two clockwise turns at bank 30 starting at speed 100. Halfway through the first turn (A), increase speed to
-     * 150. At one complete turn (B), increase to 200 and complete the second turn. The flight path should resemble
-     * something like this:
+     * 150. At one complete turn (B), increase to 200 and complete the second turn.
      */
     public void runTest9() throws IOException {
         SimulationParameters p = new SimulationParameters("test9", 144);
@@ -282,26 +280,58 @@ public class Simulation {
      * At the three-quarter point, increase speed to 80 and climb to 500 feet. Turn left 90 degrees at 30 degrees of
      * bank and continue climbing to 1,000 feet. Turn left (parallel to the runway in the opposite direction of takeoff), fly
      * level until abeam the start of the runway (x=0), descend to 750 feet, turn left, descend to 500, turn left one last
-     * time to align with the runway, reduce speed to 60, land, and stop halfway down the runway. The flight path
-     * should resemble this.
+     * time to align with the runway, reduce speed to 60, land, and stop halfway down the runway.
      */
     public void runTest10() throws IOException {
-        SimulationParameters p = new SimulationParameters("test10", 144);
+        SimulationParameters p = new SimulationParameters("test10", 386);
         p.altitude = 0;
         p.heading = 90;
+        p.speed = 60;
 
         Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
-        airplane.setRoll(30);
-        airplane.setPitch(0.6);
 
         run(p, airplane, (time) -> {
-            if (time >= 36) {
-                airplane.setSpeed(150);
-                airplane.setPitch(0.55);
+            if (time >= 42.51) {
+                airplane.setSpeed(80);
+                airplane.setPitch(20);
             }
-            if (time >= 72) {
-                airplane.setSpeed(200);
-                airplane.setPitch(0.35);
+            if (time >= 83.9) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 101.9) {
+                airplane.setPitch(20);
+                airplane.setRoll(0);
+            }
+            if (time >= 142.7) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 160.7) {
+                airplane.setRoll(0);
+            }
+            if (time >= 233) {
+                airplane.setPitch(-20);
+            }
+            if (time >= 254) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 272) {
+                airplane.setPitch(-20);
+                airplane.setRoll(0);
+            }
+            if (time >= 313) {
+                airplane.setRoll(-30);
+                airplane.setPitch(0);
+            }
+            if (time >= 331) {
+                airplane.setRoll(0);
+                airplane.setSpeed(60);
+                airplane.setPitch(-20);
+            }
+            if (time >= 362) {
+                airplane.setPitch(0);
             }
         });
     }
@@ -310,72 +340,202 @@ public class Simulation {
 
     /**
      * Put Test 11 here.
+     * Attempt to loop the airplane. It is not possible, but try anyway to see what happens. Every three simulation
+     * seconds, increase the pitch by 10 degrees until it reaches 360. In addition to the graphs, use the Excel output to
+     * try to explain why this does not work. What should happen? In particular, look at the yaw, pitch, and roll data and
+     * compare against what an inside loop is supposed to look like.
      */
     public void runTest11() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test11", 110);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+
+        run(p, airplane, (time) -> {
+            double roundedTime = Math.round(time * 10) / 10.0;
+            if (roundedTime % 3 == 0) {
+                airplane.setPitch((roundedTime / 3) * 10);
+            }
+        });
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 12 here.
+     * Repeat Test 5 (with wind).
      */
     public void runTest12() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test12", 72);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+        airplane.setRoll(30);
+        airplane.setPitch(0.6);
+
+        run(p, airplane, (time) -> {});
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 13 here.
+     * Repeat Test 5 counterclockwise (with wind).
      */
     public void runTest13() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test13", 72);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+        airplane.setRoll(-30);
+        airplane.setPitch(-0.6);
+
+        run(p, airplane, (time) -> {});
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 14 here.
+     * Repeat Test 8 (with wind).
      */
     public void runTest14() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test14", 72);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+        airplane.setRoll(30);
+        airplane.setPitch(0.6);
+
+        run(p, airplane, (time) -> {
+            if (time >= 36) {
+                airplane.setRoll(-30);
+                airplane.setPitch(-0.6);
+            }
+        });
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 15 here.
+     * Repeat Test 10 (with wind)
      */
     public void runTest15() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test15", 386);
+        p.altitude = 0;
+        p.heading = 90;
+        p.speed = 60;
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+
+        run(p, airplane, (time) -> {
+            if (time >= 42.51) {
+                airplane.setSpeed(80);
+                airplane.setPitch(20);
+            }
+            if (time >= 83.9) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 101.9) {
+                airplane.setPitch(20);
+                airplane.setRoll(0);
+            }
+            if (time >= 142.7) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 160.7) {
+                airplane.setRoll(0);
+            }
+            if (time >= 233) {
+                airplane.setPitch(-20);
+            }
+            if (time >= 254) {
+                airplane.setPitch(0);
+                airplane.setRoll(-30);
+            }
+            if (time >= 272) {
+                airplane.setPitch(-20);
+                airplane.setRoll(0);
+            }
+            if (time >= 313) {
+                airplane.setRoll(-30);
+                airplane.setPitch(0);
+            }
+            if (time >= 331) {
+                airplane.setRoll(0);
+                airplane.setSpeed(60);
+                airplane.setPitch(-20);
+            }
+            if (time >= 362) {
+                airplane.setPitch(0);
+            }
+        });
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 16 here.
+     * Repeat Test 1 (with wind).
      */
     public void runTest16() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test16", 30);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+
+        run(p, airplane, (time) -> {});
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 17 here.
+     * Try to stay reasonably on course. Report the cross-track error as the average error in position
+     * between the actual and expected x positions at each time step.
      */
     public void runTest17() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test17", 30);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+        airplane.setRoll(1.9);
+
+        run(p, airplane, (time) -> {});
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Put Test 18 here.
+     * Repeat Test 5. Try to stay reasonably on course. Report the cross-track error as the average error in position
+     * between the actual and expected x and y positions at each time step. Use the Pythagorean Theory.
      */
     public void runTest18() throws IOException {
-        // your code
+        SimulationParameters p = new SimulationParameters("test18", 72);
+
+        Airplane airplane = new Airplane(p.x, p.y, p.altitude, p.speed, p.heading, p.filename);
+        airplane.setWind(45, 10);
+        airplane.setRoll(25);
+        airplane.setPitch(0.55);
+
+        run(p, airplane, (time) -> {
+            if (time >= 18) {
+                airplane.setRoll(28);
+                airplane.setPitch(0.6);
+            }
+            if (time >= 36) {
+                airplane.setRoll(40);
+                airplane.setPitch(.69);
+            }
+            if (time >= 54) {
+                airplane.setRoll(30);
+                airplane.setPitch(.6);
+            }
+        });
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -396,43 +556,4 @@ public class Simulation {
         // your code
     }
 
-    // ---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * This is an example test.
-     */
-    public void runTestExample() throws IOException {
-        double x = 0;
-        double y = 0;
-        double altitude = 0;
-        double speed = 100;
-        double heading = 0;
-        String filename = "out";
-
-        Airplane airplane = new Airplane(x, y, altitude, speed, heading, filename);
-
-        double timeStep = 0.1;
-        double timeLimit = 30;
-
-        airplane.setPitch(10);
-        airplane.setRoll(0);
-
-        // airplane.setWind(45, 10);
-
-        double time = 0;
-
-        while (time < timeLimit) {
-            airplane.update(timeStep);
-
-            time = airplane.getTime();
-
-//         // after time 10, roll 50 degrees to the right
-//         if (time > 10)
-//         {
-//            airplane.setRoll(50);
-//         }
-        }
-
-        airplane.terminate();
-    }
 }
