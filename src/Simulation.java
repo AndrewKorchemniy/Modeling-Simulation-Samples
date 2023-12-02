@@ -13,7 +13,7 @@ public class Simulation {
     public static void main(final String[] arguments) {
         Simulation simulation = new Simulation();
 
-        simulation.doTest();
+        simulation.doTest8();
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,6 +39,175 @@ public class Simulation {
         executeSimulation(queue, bucketSize);
     }
 
+    /**
+     * Executes Test 1
+     */
+    private void doTest1() {
+        int randomSeed = 2;
+        double lambda = 0.75; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30; // red every 30 seconds starting at 30, green every 30 seconds starting at 60
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 2
+     */
+    private void doTest2() {
+        int randomSeed = 2;
+        double lambda = 0.5; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30; // red every 30 seconds starting at 30, green every 30 seconds starting at 60
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 3
+     */
+    private void doTest3() {
+        int randomSeed = 2;
+        double lambda = 5.0; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30; // red every 30 seconds starting at 30, green every 30 seconds starting at 60
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 4
+     */
+    private void doTest4() {
+        int randomSeed = 2;
+        double lambda = 0.75; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 45;
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 5
+     */
+    private void doTest5() {
+        int randomSeed = 2;
+        double lambda = 0.75; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30;
+        double lengthRed = 45;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 6
+     */
+    private void doTest6() {
+        int randomSeed = 2;
+        double lambda = 0.75; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 10;
+        double lengthRed = 10;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 10; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+
+    /**
+     * Executes Test 7
+     */
+    private void doTest7() {
+        int randomSeed = 2;
+        double lambda = 5.0; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30; // red every 30 seconds starting at 30, green every 30 seconds starting at 60
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 15; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
+    /**
+     * Executes Test 8
+     */
+    private void doTest8() {
+        int randomSeed = 2;
+        double lambda = 5.0; // the random arrival rate of cars; larger is more frequent
+        double simulationRunTime = 300; // the total number of seconds to simulate
+        double lengthGreen = 30; // red every 30 seconds starting at 30, green every 30 seconds starting at 60
+        double lengthRed = 30;
+        double spread = (lengthGreen + lengthRed);
+        double bucketSize = 5; // the size of the histogram buckets in seconds
+
+        // populate the traffic-light transitions
+        TrafficQueue queue = new TrafficQueue("queue");
+        populateLights(queue, simulationRunTime, lengthGreen, spread, spread, spread);
+        // populate the cars randomly
+        populateCars(queue, simulationRunTime, lambda, randomSeed);
+        // execute the simulation and generate a histogram
+        executeSimulation(queue, bucketSize);
+    }
+
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
     /**
@@ -48,7 +217,6 @@ public class Simulation {
      * @param bucketSize - the bucket size in seconds
      */
     private void executeSimulation(final TrafficQueue queue, double bucketSize) {
-        // TODO: create the five analysis groups
         AnalysisGroup all = new AnalysisGroup("all", 0);
         AnalysisGroup on_green_all = new AnalysisGroup("on_green:all", 0);
         AnalysisGroup on_red_all = new AnalysisGroup("on_red:all", 0);
@@ -56,7 +224,6 @@ public class Simulation {
         AnalysisGroup on_red_n = new AnalysisGroup("on_red_1", 1);
         int cycles = 1;
 
-        // TODO: keep looping while the queue has events
         while (queue.hasEvents()) {
             List<Event> events = queue.service();
             for (Event e : events) {
@@ -99,15 +266,6 @@ public class Simulation {
         on_red_all.generateHistogram(bucketSize);
         on_green_all.generateHistogram(bucketSize);
         all.generateHistogram(bucketSize);
-
-        // TODO: > pop off all events queued up for this turn of the light
-        // TODO: >> for a CAR_ARRIVAL event, add it to the all analysis group and the on_green:n/green:all or on_red:n/red:all groups, depending on the light state
-        // TODO: >> for a LIGHT_TO_GREEN event, add an event separator with the current time to all and red:all,
-        // finalize the on_red:n group with this time, and create a new on_green:n group for the next turn. Finalizing prints its statistics
-        // TODO: >> for a LIGHT_TO_RED event, add an event separator with the current time to all and green:all,
-        // finalize the on_green:n group with this time, and create a new on_red:n group for the next turn. Finalizing prints its statistics
-        // TODO: finalize all the all analysis groups with the final simulation time
-        // TODO: generate the histograms on the all groups
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -128,11 +286,6 @@ public class Simulation {
             queue.addEvent(new Event(time, "car_" + (int) (time + 1), Event.E_EventType.CAR_ARRIVAL));
             time += Math.log(1 - random.nextDouble()) / -lambda;
         } while (time < simulationRunTime);
-
-        // TODO: create a java.util.Random object random with randomSeed
-        // TODO: starting at current time 0, loop until it reaches or exceeds simulationRunTime
-        // TODO: > generate a random time with lambda from the exponential-distribution formula in the specs
-        // TODO: create a CAR_ARRIVAL event at this time, add it to the queue, and advance the current time by this amount
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -147,16 +300,9 @@ public class Simulation {
      * @param startTimeGreen    - the start time of the green lights
      * @param intervalGreen     - the time interval between green lights
      */
-    private void populateLights(final TrafficQueue queue,
-                                final double simulationRunTime,
-                                final double startTimeRed,
-                                final double intervalRed,
-                                final double startTimeGreen,
-                                final double intervalGreen) {
+    private void populateLights(final TrafficQueue queue, final double simulationRunTime, final double startTimeRed, final double intervalRed, final double startTimeGreen, final double intervalGreen) {
         populateTransitions(queue, Event.E_EventType.LIGHT_TO_RED, startTimeRed, simulationRunTime, intervalRed);
         populateTransitions(queue, Event.E_EventType.LIGHT_TO_GREEN, startTimeGreen, simulationRunTime, intervalGreen);
-        // TODO: call populateTransitions for the LIGHT_TO_RED transitions
-        // TODO: call populateTransitions for the LIGHT_TO_GREEN transitions
     }
 
     // ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -170,17 +316,11 @@ public class Simulation {
      * @param timeEnd   - the time of the last event
      * @param timeStep  - the interval between each event; the last interval may not divide evenly
      */
-    private void populateTransitions(final TrafficQueue queue,
-                                     final Event.E_EventType type,
-                                     final double timeStart,
-                                     final double timeEnd,
-                                     final double timeStep) {
+    private void populateTransitions(final TrafficQueue queue, final Event.E_EventType type, final double timeStart, final double timeEnd, final double timeStep) {
         double i = timeStart;
         while (i <= timeEnd) {
             queue.addEvent(new Event(i, "transition_" + (int) ((i + timeStep - timeStart) / timeStep), type));
             i += timeStep;
         }
-
-        // TODO: loop from timeStart up to and including timeEnd by timeStep, create an event for each, and add it to the queue
     }
 }
